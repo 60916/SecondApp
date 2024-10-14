@@ -1,0 +1,26 @@
+{% extends 'Listor/mall.html' %}
+
+{% block innehall %}
+  <div class="container py-5">
+
+    {% for lista in listan %}
+      <h1>{{lista.list_name}}</h1>
+      {% endfor %}
+
+    <table>
+      {% for item in items%}
+      <tr>
+        <td>{{item.item_name}}</td>
+        <td>{{item.amount}}</td>
+        <td>Redigera</td>
+        <td>Radera</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+
+    <a class="btn brn-primary" href=#>Ny Vara</a>
+
+  </div>
+
+{% endblock innehall %}

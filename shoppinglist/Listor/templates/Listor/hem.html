@@ -1,11 +1,18 @@
-<!DOCTYPE html>
-<html lang="sv">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spikens Lista</title>
-</head>
-<body>
-  
-</body>
-</html>
+{% extends 'Listor/mall.html' %}
+
+{% block innehall %}
+
+  <div class="container py-5">
+
+    <h1>Listor</h1>
+
+      <ul>
+      {% for lista in listor%}
+        <li><a href="{% url 'lista-sida' lista.id %}">{{lista.list_name}}</a></li>
+      {% endfor %}
+      </ul>
+    <a class="btn brn-primary" href=#>Ny Lista</a>
+
+  </div>
+
+{% endblock innehall %}
