@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import List, Item
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import ListView, CreateView, UpdateView
 
 # Create your views here.
 class AllaListor (LoginRequiredMixin,ListView):
@@ -24,7 +24,42 @@ class EnLista(LoginRequiredMixin,ListView):
     context['listan'] = List.objects.filter(id=self.kwargs['pk'])
     return context
   
+
 class NyLista(LoginRequiredMixin,CreateView):
   model = List
   fields = ['list_name']
+
+  def form_valid(self, form):
+    form.instance.list_user=self.request.user 
+    return super().form_valid(form)
+  
+  def get_context_data(self,**kwargs):
+    context=super().get_context_data(**kwargs)
+    context['status'] = {'status':'Ny'}
+    return context
+  
+
+class UppdateraLista(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
+  model = List
+  fields = ['list_name']
+
+  def get_context_data(self,**kwargs):
+    context=super().get_context_data(**kwargs)
+    context['status'] = {'status':'Uppdatera'}
+    return context
+
+
+  def test_func(self):
+    lista=self.get_object()
+    if self.request.user == lista.list_user:
+      return True
+    return False
+
+class NyVara(LoginRequiredMixin,CreateView):
+  model = Item
+  fields = ['item_name', 'amount']
+
+  def form_valid(self, form):
+    form.instance.list=get_object_or_404(List,id=self.kwargs.get('pk'))
+    return super().form_valid(form)
 

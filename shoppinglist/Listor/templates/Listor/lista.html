@@ -5,6 +5,7 @@
 
     {% for lista in listan %}
       <h1>{{lista.list_name}}</h1>
+      <a href="{% url 'lista-uppdatera' lista.id %}">Uppdatera</a>
       {% endfor %}
 
     <table>
@@ -18,8 +19,9 @@
       {% endfor %}
     </table>
 
-
-    <a class="btn brn-primary" href=#>Ny Vara</a>
+    {% for lista in listan %}
+      <a class="btn brn-primary" href="{% url 'vara-ny' lista.id %}">Ny Vara</a>
+    {% endfor %}
 
   </div>
 

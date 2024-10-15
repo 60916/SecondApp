@@ -3,6 +3,7 @@ from django.utils import timezone
 import datetime
 from django.contrib import admin
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your models here.
 
@@ -13,6 +14,9 @@ class List(models.Model):
 
     def _str_(self):
         return self.list_name
+    
+    def get_absolute_url(self):
+        return reverse('lista-sida',kwargs={'pk':self.pk})
 
 
 class Item(models.Model):
@@ -23,3 +27,6 @@ class Item(models.Model):
 
     def _str_(self):
         return self.item_name
+    
+    def get_absolute_url(self):
+        return reverse('lista-sida',kwargs={'pk':self.list.pk})
