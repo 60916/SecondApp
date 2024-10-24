@@ -6,10 +6,15 @@
 <form method="POST">
   {% csrf_token %}
   <fieldset>
-    <legend>Ny Vara</legend>
+    <legend> {{status.status}} Vara</legend>
     {{ form|crispy }}
   </fieldset>
   <button class="btn btn-primary" type="submit">Spara Vara</button>
+  {% if status.status == 'Uppdatera' %}
+    <a class="btn brn-primary" href="{% url 'lista-sida' object.list.id %}">Ångra</a>
+  {% else %}
+    <a class="btn brn-primary" href="{% url 'lista-sida' lista.listID %}">Ångra</a>
+  {% endif %}
 </form>
   </div>
   {% endblock innehall %}

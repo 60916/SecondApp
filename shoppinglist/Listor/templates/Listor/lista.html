@@ -5,16 +5,34 @@
 
     {% for lista in listan %}
       <h1>{{lista.list_name}}</h1>
-      <a href="{% url 'lista-uppdatera' lista.id %}">Uppdatera</a>
+        {% if lista.list_user == user %}
+          <a href="{% url 'lista-uppdatera' lista.id %}"><i class="bi bi-pencil-square"></i></a>
+          <a href="{% url 'lista-radera' lista.id %}"><i class="bi bi-trash"></i></a>
+          <a href="{% url 'vara-rensa' lista.id %}"><i class="bi bi-file-earmark-x"></i></a>
+        {% endif %}
       {% endfor %}
 
     <table>
-      {% for item in items%}
       <tr>
-        <td>{{item.item_name}}</td>
+        <th>Vara</th>
+        <th>Antal</th>
+        <th></th>
+        <th></th>
+      </tr>
+      {% for item in items%}
+      <tr class="{% if item.purchased %}purchased{% else %}np{% endif %}">
+        <td><form method="POST">{% csrf_token %}
+          <input type="hidden" name="item_id" value="{{item.pk}}">
+          <button type="submit" class="btn btn-link">{{item.item_name}}</button>
+        </form></td>
         <td>{{item.amount}}</td>
-        <td>Redigera</td>
-        <td>Radera</td>
+        <td><a href="{% url 'vara-uppdatera' item.id %}"><i class="bi bi-pencil-square"></i></a></td>
+        <td>
+          <form method="POST" action="{% url 'vara-radera' item.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-link"><i class="bi bi-trash"></i></button>
+          </form>
+        </td>
       </tr>
       {% endfor %}
     </table>

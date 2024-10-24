@@ -8,8 +8,8 @@ from django.urls import reverse
 # Create your models here.
 
 class List(models.Model):
-    list_name = models.CharField(max_length=200)
-    list_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    list_name = models.CharField('Listans namn', max_length=255)
+    list_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='lists')
     created_date = models.DateTimeField(default=timezone.now)
 
     def _str_(self):
@@ -20,8 +20,8 @@ class List(models.Model):
 
 
 class Item(models.Model):
-    item_name = models.CharField(max_length=200)
-    amount = models.IntegerField(default=1)
+    item_name = models.CharField('Varans namn', max_length=255)
+    amount = models.IntegerField('Mängd', default=1)
     purchased = models.BooleanField(default=False)
     list = models.ForeignKey(List, on_delete=models.CASCADE)
 
